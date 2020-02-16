@@ -1,20 +1,17 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const morgan = require('morgan')
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
-var Post = require("../models/posts");
 
-const app = express()
-app.use(morgan('combined'))
-app.use(bodyParser.json())
-app.use(cors())
-
-// DB Setup
-var mongoose = require('mongoose');
-
+// create DB connection
+// mongoose.connect('mongodb://127.0.0.1:27017/auth' , {useNewUrlParser: true })
+//     .then(() => {console.log('Database is connected')},
+//     err => {console.log('Can not connect to the Databases' + err )}
+// );
 var DATABASE_URL = process.env.DATABASE_URL || 'http://localhost'
-mongoose.connect(`mongodb://${DATABASE_URL}/posts`, { useNewUrlParser: true });
+
+mongoose.connect(`mongodb://${DATABASE_URL}/auth`, { useNewUrlParser: true });
 
 var db = mongoose.connection;
 
@@ -24,8 +21,9 @@ db.on('error', function (error) {
   // See: https://github.com/Automattic/mongoose/issues/5169
   if (error.message && error.message.match(/failed to connect to server .* on first connect/)) {
     setTimeout(function () {
-      mongoose.connect(`mongodb://${DATABASE_URL}/posts`, { useNewUrlParser: true }).catch(() => {
+      mongoose.connect(`mongodb://${DATABASE_URL}/auth`, { useNewUrlParser: true }).catch(() => {
         // empty catch avoids unhandled rejections
+        () => {console.log('Database is connected')}
       });
     }, 20 * 1000);
   } else {
@@ -35,82 +33,35 @@ db.on('error', function (error) {
 });
 
 db.once("open", function(callback){
-  console.log("Connection Succeeded");
+  console.log("Connection Succeeded" , `mongodb://${DATABASE_URL}/auth` );
 });
 
-// SERVER Setup
-app.get('/posts', (req, res) => {
-  Post.find({}, 'title description', function (error, posts) {
-    if (error) { console.error(error); }
-    res.send({
-      posts: posts
-    })
-  }).sort({_id:-1})
+const users = require('../routes/user');
+
+const app = express();
+app.use(passport.initialize());
+require('../passport')(passport)
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
+app.use(bodyParser.urlencoded({extended: false }));
+app.use(bodyParser.json());
 
-// Post Endpoints
-app.post('/posts', (req, res) => {
-  var db = req.db;
-  var title = req.body.title;
-  var description = req.body.description;
-  var new_post = new Post({
-    title: title,
-    description: description
-  })
+app.use('/api/users', users);
 
-  new_post.save(function (error) {
-    if (error) {
-      console.log(error)
-    }
-    res.send({
-      success: true,
-      message: 'Post saved successfully!'
-    })
-  })
+app.get('/api/test', (req,res) => res.json({msg: "Users works"}));
+
+
+app.get('/hello', function(req, res) {
+    res.send('hello');
 })
 
-// Fetch single post
-app.get('/post/:id', (req, res) => {
-  var db = req.db;
-  Post.findById(req.params.id, 'title description', function (error, post) {
-    if (error) { console.error(error); }
-    res.send(post)
-  })
+const PORT  = process.env.PORT || 8081;
+
+app.listen( PORT , () => {
+    console.log(`Server is running on PORT ${PORT}`);
 })
-
-// Update a post
-app.put('/posts/:id', (req, res) => {
-  var db = req.db;
-  Post.findById(req.params.id, 'title description', function (error, post) {
-    if (error) { console.error(error); }
-
-    post.title = req.body.title
-    post.description = req.body.description
-    post.save(function (error) {
-      if (error) {
-        console.log(error)
-      }
-      res.send({
-        success: true
-      })
-    })
-  })
-})
-
-// Delete a post
-app.delete('/posts/:id', (req, res) => {
-  var db = req.db;
-  Post.remove({
-    _id: req.params.id
-  }, function(err, post){
-    if (err)
-      res.send(err)
-    res.send({
-      success: true
-    })
-  })
-})
-
-
-app.listen(process.env.PORT || 8081)

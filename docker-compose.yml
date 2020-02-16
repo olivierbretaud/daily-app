@@ -3,10 +3,13 @@ version: "3"
 services:
   client:
     build: ./client
+    restart: always
     ports:
       - 8080:8080
     volumes:
       - ./client:/data
+    command:
+      npm run dev
     environment:
       - API_URL=http://localhost:8081/
 
@@ -28,4 +31,3 @@ services:
     volumes:
       - ./db:/data/db
 
-    

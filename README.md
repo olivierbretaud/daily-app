@@ -1,9 +1,5 @@
-# VENoM-Docker
-Vue, Express, Node, Mongo with Docker-compose setup for local development. Hot Reload, SASS live compilation, among other goodies :)  
-
-Tutorial here:
-
-https://medium.com/@audretschjames/venom-stack-docker-setup-for-local-development-457093761ad1
+# NUXT MONGO DOCKER 
+Vue, Express, Node, Mongo with Docker-compose setup for local development.
 
 ### Steps to Run
 

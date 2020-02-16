@@ -1,17 +1,30 @@
-FROM node:carbon
+FROM node:11.13.0-alpine
 
-COPY ./docker/entrypoint.sh /entrypoint/
+# create destination directory
+RUN mkdir -p /nuxt-app
+WORKDIR /nuxt-app
 
-RUN ["chmod", "+x", "entrypoint/entrypoint.sh"]
+# update and install dependency
+RUN apk update && apk upgrade
+RUN apk add git
 
-# Copy or mount node app here
-WORKDIR /data/
+# copy the app, note .dockerignore
+COPY . /nuxt-app/
+RUN npm install
 
-EXPOSE 8080
+# build necessary, even if no static files are needed,
+# since it builds the server as well
+RUN npm run build
 
-ENTRYPOINT ["/entrypoint/entrypoint.sh"]
+# expose 5000 on container
+EXPOSE 3000
 
-CMD ["npm", "start"]
+# set app serving to permissive / assigned
+ENV NUXT_HOST=0.0.0.0
+# set app port
+ENV NUXT_PORT=3000
 
+# start the app
+CMD [ "npm", "start" ]
 
 
