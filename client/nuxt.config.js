@@ -32,16 +32,22 @@ export default {
   /*
   ** Nuxt.js dev-modules
   */
+
   buildModules: [
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
   ],
   /*
   ** Build configuration
   */
+  axios: {
+    debug: true
+  },
+
   build: {
     /*
     ** You can extend webpack config here

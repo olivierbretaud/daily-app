@@ -1,4 +1,4 @@
-FROM node:11.13.0-alpine
+FROM node:carbon
 
 COPY ./docker/entrypoint.sh /entrypoint/
 

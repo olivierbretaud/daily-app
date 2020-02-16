@@ -3,7 +3,7 @@
     <div>
       <logo />
       <h1 class="title">
-        starter-nuxt
+        merci gus
       </h1>
       <h2 class="subtitle">
         starter-nuxt
@@ -21,7 +21,7 @@
           target="_blank"
           class="button--grey"
         >
-          GitHub
+         merci gus
         </a>
       </div>
     </div>
@@ -29,11 +29,18 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Logo from '~/components/Logo.vue';
 
 export default {
   components: {
     Logo
+  },
+
+  async asyncData({ $axios }) {
+    console.log("nuxt")
+    const ip = await $axios.$get(process.env.API_URL+ '/hello')
+    console.log(ip)
+    return { ip } 
   }
 }
 </script>

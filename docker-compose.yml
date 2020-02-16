@@ -5,13 +5,11 @@ services:
     build: ./client
     restart: always
     ports:
-      - 8080:8080
+      - 3000:3000
     volumes:
-      - ./client:/data
-    command:
-      npm run dev
+      - ./client:/home/node/app
     environment:
-      - API_URL=http://localhost:8081/
+     - API_URL=http://server:8081
 
   server:
     build: ./server
