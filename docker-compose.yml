@@ -9,14 +9,17 @@ services:
     volumes:
       - ./client:/home/node/app
     environment:
-     - API_URL=http://server:8081
+      - NODE_ENV=dev
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+      - API_URL=http://server:8081
 
   server:
     build: ./server
     ports:
       - 8081:8081
     volumes:
-      - ./server:/data
+      - ./server:/home/node/app
     depends_on: 
       - server-database
     environment:
@@ -27,5 +30,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./db:/data/db
-
+      - dbdata:/data/
+      
+volumes: 
+  dbdata:

@@ -1,15 +1,24 @@
-FROM node:carbon
+FROM node:12-alpine
 
-COPY ./docker/entrypoint.sh /entrypoint/
+# update and install dependency
+RUN apk update && apk upgrade
 
-RUN ["chmod", "755", "entrypoint/entrypoint.sh"]
+# create destination directory
+RUN mkdir -p /home/node/app/node_modules
 
-# Copy or mount node app here
-WORKDIR /data/
+WORKDIR /home/node/app
 
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+# build necessary, even if no static files are needed,
+# since it builds the server as well
+
+# expose 8081 on container
 EXPOSE 8081
-
-ENTRYPOINT ["/entrypoint/entrypoint.sh"]
 
 
 CMD ["npm", "start"]

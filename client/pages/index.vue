@@ -21,7 +21,7 @@
           target="_blank"
           class="button--grey"
         >
-         merci gus
+         merci gusto
         </a>
       </div>
     </div>
@@ -37,8 +37,8 @@ export default {
   },
 
   async asyncData({ $axios }) {
-    console.log("nuxt")
-    const ip = await $axios.$get(process.env.API_URL+ '/hello')
+    console.log("nuxt test env" )
+    const ip = await $axios.$get(process.env.API_URL + '/hello')
     console.log(ip)
     return { ip } 
   }
