@@ -3,26 +3,19 @@
     <div>
       <logo />
       <h1 class="title">
-        merci gus
+        <!-- {{ $store.state.auth.user }} -->
+        {{ user }}
       </h1>
       <h2 class="subtitle">
-        starter-nuxt
+        {{ error }}
       </h2>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
+        <button
           class="button--grey"
+          @click="$store.dispatch('auth/login')"
         >
          merci gusto
-        </a>
+        </button>
       </div>
     </div>
   </div>
@@ -30,19 +23,22 @@
 
 <script>
 import Logo from '~/components/Logo.vue';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     Logo
   },
 
-  async asyncData({ $axios }) {
-    console.log("nuxt test env" )
-    const ip = await $axios.$get(process.env.API_URL + '/hello')
-    console.log(ip)
-    return { ip } 
-  }
+  computed: {
+  ...mapState({
+    user: state => state.auth.user,
+    error: state => state.auth.error
+  })
 }
+
+}
+
 </script>
 
 <style>

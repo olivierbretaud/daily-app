@@ -61,40 +61,10 @@ const createAxiosInstance = axiosOptions => {
   extendAxiosInstance(axios)
 
   // Setup interceptors
-  setupDebugInterceptor(axios)
 
   setupProgress(axios)
 
   return axios
-}
-
-const log = (level, ...messages) => console[level]('[Axios]', ...messages)
-
-const setupDebugInterceptor = axios => {
-  // request
-  axios.onRequestError(error => {
-    log('error', 'Request error:', error)
-  })
-
-  // response
-  axios.onResponseError(error => {
-    log('error', 'Response error:', error)
-  })
-  axios.onResponse(res => {
-      log(
-        'info',
-        '[' + (res.status + ' ' + res.statusText) + ']',
-        '[' + res.config.method.toUpperCase() + ']',
-        res.config.url)
-
-      if (process.browser) {
-        console.log(res)
-      } else {
-        console.log(JSON.stringify(res.data, undefined, 2))
-      }
-
-      return res
-  })
 }
 
 const setupProgress = (axios) => {

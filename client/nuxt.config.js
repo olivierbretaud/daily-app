@@ -44,10 +44,6 @@ export default {
   /*
   ** Build configuration
   */
-  axios: {
-    debug: true
-  },
-
   build: {
     /*
     ** You can extend webpack config here
