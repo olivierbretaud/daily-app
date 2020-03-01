@@ -1,17 +1,17 @@
 <template>
   <div class="container">
-    <Login />
+    <SignIn />
   </div>
 </template>
 
 <script>
-import Login from '~/components/Login.vue';
+import SignIn from '~/components/SignIn.vue';
 
 export default {
   middleware: 'authenticated',
 
   components: {
-    Login
+    SignIn
   },
   
 }

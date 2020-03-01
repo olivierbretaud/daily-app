@@ -6,21 +6,19 @@ const validateLoginInput =require('../validation/login');
 const User = require('../models/User');
 
 exports.register = function(req, res ) {
-    console.log(req.body)
-    const { errors, isValid } = validateRegisterInput(req.body);
+
+    const { error, isValid } = validateRegisterInput(req.body);
 
     if (!isValid) {
-        console.log(req.body)
-        return res.status(400).json(errors)
+        console.log(req.body, error)
+        return res.status(400).json(error)
     }
 
     User.findOne({
         email: req.body.email
     }).then(user => {
         if (user ) {
-            return res.status(400).json({
-                email: 'Email already exists'
-            });
+            return res.status(400).json('Email already exists');
         } else { 
             const newUser = new User({
                 name: req.body.name,
@@ -50,10 +48,10 @@ exports.register = function(req, res ) {
 };
 
 exports.login = (req, res) => {
-    const { errors,  isValid } = validateLoginInput(req.body);
+    var { error,  isValid } = validateLoginInput(req.body);
 
     if(!isValid) {
-        return res.status(400).json(errors);
+        return res.status(400).json(error);
     }
 
     const email = req.body.email;
@@ -62,8 +60,8 @@ exports.login = (req, res) => {
     User.findOne({email})
         .then(user => {
             if(!user) {
-                errors.email ='User not found'
-                return res.status(404).json(errors);
+                error ='User not found'
+                return res.status(404).json(error);
             }
             bcrypte.compare(password, user.password)
                 .then(isMatch => {
@@ -79,13 +77,13 @@ exports.login = (req, res) => {
                             else {
                                 res.json({
                                     success: true,
-                                    token: `Breaer ${token}`
+                                    token: token
                                 });
                             }
                         });
                     } else {
-                        errors.password ='Incorrect Password';
-                        return res.status(400).json(errors);
+                        error ='Incorrect Password';
+                        return res.status(400).json(error);
                     }
                 });
         });

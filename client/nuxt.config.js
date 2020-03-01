@@ -22,12 +22,12 @@ export default {
   /*
   ** Global CSS
   */
-  css: [
-  ],
+
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    
   ],
   /*
   ** Nuxt.js dev-modules
@@ -38,15 +38,36 @@ export default {
   /*
   ** Nuxt.js modules
   */
-  modules: [
-    '@nuxtjs/axios',
+
+  // modules: ['@nuxtjs/style-resources', '@nuxtjs/axios',],
+
+  modules: ['@nuxtjs/axios'],
+
+
+  // styleResources: {
+  //     scss: [
+  //       '~/assets/styles/main.scss',
+  //     ]
+  // },
+
+  css: [
+     '~/assets/styles/main.scss'
   ],
+  
+  render: {
+    bundleRenderer: {
+      shouldPreload: (file, type) => {
+        return ['script', 'style', 'font'].includes(type)
+      }
+    }
+  },
+
   /*
   ** Build configuration
+  
   */
   build: {
-    /*
-    ** You can extend webpack config here
+    /** You can extend webpack config here
     */
     extend (config, ctx) {
     }

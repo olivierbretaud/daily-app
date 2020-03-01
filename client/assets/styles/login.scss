@@ -1,0 +1,38 @@
+@import './transitions.scss';
+
+.fancy-button {
+  span {
+    min-width: 140px;
+  }
+}
+
+.login-container {
+  width: 320px;
+  @include animation-y(slide-in-bottom, 0.5s,  40px , 0 )
+}
+
+.btn-container {
+    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.error {
+  position: absolute;
+  width: 320px;
+  margin-top: -30px;
+  color:$error;
+  font-size: 18px;
+  font-family: "Raleway-SemiBold";
+  @include animation-y(slide-in-top, 0.2s,  -20px , 0 )
+}
+
+.success {
+  position: absolute;
+  width: 320px;
+  margin-top: -30px;
+  color:$primary;
+  font-size: 18px;
+  font-family: "Raleway-SemiBold";
+  @include animation-y(slide-in-top, 0.2s,  -20px , 0 )
+}

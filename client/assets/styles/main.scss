@@ -1,0 +1,41 @@
+@import './variables.scss';
+@import './buttons.scss';
+@import './inputs.scss';
+@import './login.scss';
+
+body {
+	font-family: "Raleway-Regular", sans-serif;
+}
+
+@font-face {
+	font-family: "Raleway-SemiBold";
+	src: url("../fonts/Raleway-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Raleway-Regular";
+	src: url("../fonts/Raleway-Regular.ttf") format("truetype");
+}
+
+ul {
+	list-style: none;
+	padding: 0px;
+}
+
+:focus {
+  outline: none;
+}
+
+input, select, textarea {
+	border-style: none;
+	border-width: 0px;
+}
+
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
