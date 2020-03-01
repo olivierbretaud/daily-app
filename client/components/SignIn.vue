@@ -64,7 +64,6 @@
 import { mapState } from 'vuex';
 
 export default {
-  props: ['loginToggle'],
 
   data() {
     return {
@@ -74,6 +73,10 @@ export default {
       password: null,
       passwordConfirm: null
     }
+  },
+
+  mounted(){
+    this.$store.dispatch('resetAuthErrors');
   },
 
   computed: {

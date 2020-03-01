@@ -60,7 +60,7 @@ export const actions = {
 
 // GLOBALS REQUESTS
 
-const API_URL = "http://0.0.0.0:8081";
+export const API_URL = "http://0.0.0.0:8081";
 
 function getCookie(name) {
   var value = "; " + document.cookie;
@@ -87,7 +87,6 @@ export async function postData( url , mutationType , errorType , commit , payloa
 		const response = await axios.post(API_URL + url , payload , requireAuth ? config : null);
     commit( mutationType  , response.data )
   } catch (error) {
-    console.log(error)
     commit( errorType,  error.response.data);
   }
 } 

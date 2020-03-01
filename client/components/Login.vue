@@ -57,6 +57,10 @@ export default {
     }
   },
 
+  mounted(){
+    this.$store.dispatch('resetAuthErrors');
+  },
+
   computed: {
 
     ...mapState({
@@ -75,7 +79,9 @@ export default {
   watch: {
     auth: function (val) {
       console.log(val)
-      if (val) this.$router.push('/secret');
+      if (val) {
+        this.$router.push('/secret');
+      }
     }
   },
   
@@ -102,32 +108,6 @@ export default {
 }
 
 </script>
+
 <style lang="scss">
-// @import '../assets/styles/transitions.scss';
-
-// .fancy-button {
-//   span {
-//     min-width: 140px;
-//   }
-// }
-
-// .login-container {
-//   width: 320px;
-//   @include animation-y(slide-in-bottom, 0.5s,  40px , 0 )
-// }
-
-// .btn-container {
-//     margin-top: 20px;
-//   display: flex;
-//   justify-content: space-between;
-// }
-
-// .error {
-//   position: absolute;
-//   width: 320px;
-//   margin-top: -30px;
-//   color:$error;
-//   @include animation-y(slide-in-top, 0.2s,  -20px , 0 )
-// }
-
 </style>

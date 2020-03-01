@@ -17,20 +17,9 @@ export const mutations = {
 }
 
 export const actions = {
-	// async nuxtServerInit({ commit }, { req }) {
-	// 	let auth = null
-	// 	console.log(req.headers.cookie)
-  //   if (req.headers.cookie) {
-	// 		const parsed = cookieparser.parse(req.headers.cookie)
-  //     try {
-	// 			auth = JSON.parse(parsed.auth)
-  //     } catch (err) {
-  //       // No valid cookie found
-  //     }
-	// 	}
 	async getUser({ commit }) {
+		console.log("get user")
 		getData('/users/me' ,  'SET_USER' , 'SET_ERROR', commit , null , true )
 	}
-
 }
 

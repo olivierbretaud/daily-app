@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div>
-      <h1 v-if="$store.state.user.user">
-        Welcome {{ $store.state.user.user.name }}
+      <h1 v-if="user">
+        Welcome {{ user.name }}
       </h1>
       <button
         @click="logout"
@@ -16,17 +16,19 @@
 
 <script>
 import { mapState } from 'vuex';
+import { API_URL } from '../store/index';
 
 export default {
   middleware: 'notAuthenticated',
 
   mounted(){
-    this.getMe()
+    this.getMe();
   },
 
   computed: {
     ...mapState({
       auth: state => state.auth,
+      user: state => state.user.user
     }) 
   },
 
