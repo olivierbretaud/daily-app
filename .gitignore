@@ -3,4 +3,5 @@ db/*
 !db/.gitignore
 
 node_modules/
+.env
 

@@ -18,8 +18,7 @@ export const mutations = {
 
 export const actions = {
 	async getUser({ commit }) {
-		console.log("get user")
-		getData('/users/me' ,  'SET_USER' , 'SET_ERROR', commit , null , true )
+		getData('/users/profile' ,  'SET_USER' , 'SET_ERROR', commit , null , true )
 	}
 }
 

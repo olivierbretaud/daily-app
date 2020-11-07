@@ -23,6 +23,9 @@ services:
     depends_on: 
       - server-database
     environment:
+      - EMAIL_LOGIN=olivierbretaud@hotmail.fr
+      - EMAIL_PASSWORD=micro@256
+      - CLIENT_URL="http://localhost:3000"
       - DATABASE_URL=server-database:27017
     
   server-database:

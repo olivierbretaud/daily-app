@@ -8,6 +8,10 @@ router.post('/register', usersController.register );
 
 router.post('/login', usersController.login);
 
-router.get('/me', passport.authenticate('jwt', {session: false}), usersController.me );
+router.post('/forgot', usersController.sendResetPassordEmail );
+
+router.post('/reset-password', usersController.resetPassword );
+
+router.get('/profile', passport.authenticate('jwt', {session: false}), usersController.profile );
 
 module.exports = router;
