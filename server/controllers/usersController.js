@@ -4,14 +4,12 @@ const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 const { transporter , getPasswordResetURL , resetPasswordTemplate } = require('../modules/email')
 
-const passwordHashToToken = ({
-    password,
-    id,
-  }) => { 
-  
-    const secret = password + "-" + id;
-  
-    const token = jwt.sign({ id }, secret, {
+const passwordHashToToken = (user) => { 
+
+    console.log(user)
+    const secret = user.password;
+    const userId = user._id
+    const token = jwt.sign({ userId }, secret, {
       expiresIn: 3600 // 1 hour
     });
   
@@ -38,7 +36,8 @@ exports.register = (req, res ) => {
             return res.status(400).json('Email already exists');
         } else { 
             const newUser = new User({
-                name: req.body.name,
+                lastName: req.body.lastName,
+                firstName: req.body.firstName,
                 email: req.body.email,
                 password:  req.body.password,
                 isAdmin : false
@@ -54,7 +53,7 @@ exports.register = (req, res ) => {
                             newUser
                                 .save()
                                 .then(user => {
-                                    res.json(user)
+                                    res.status(201).json(user)
                                 });
                         }
                     });
@@ -84,8 +83,8 @@ exports.login = (req, res) => {
                 .then(isMatch => {
                     if (isMatch) {
                         const payload = {
-                            id: user.id,
-                            name: user.name,
+                            _id: user._id,
+                            firstName: user.firstName,
                         }
                         jwt.sign(payload, 'secret', {
                             expiresIn: 3600
@@ -108,8 +107,9 @@ exports.login = (req, res) => {
 
 exports.profile = (req, res ) => {
     return res.json({
-        id: req.user.id,
-        name: req.user.name,
+        _id: req.user._id,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
         email: req.user.email,
         isAdmin :req.user.isAdmin
     });
@@ -150,21 +150,29 @@ exports.sendResetPassordEmail = ( req , res ) => {
 };
 
 exports.resetPassword = (req , res ) => {
-    const { token , id , password } = req.body;
+    const { token , _id , password } = req.body;
     console.log(req.body);
-    User.findOne({ _id: id })
+    User.findOne({ _id })
         .then(user => {
-            const secret = user.password + "-" + user.id;
+            const secret = user.password;
             const payload = jwt.decode(token , secret );
-            console.log(req.body , secret , token )
-            if (payload.id === user.id) {
+            console.log(payload.userId , user._id)
+            if (payload.userId === user._id) {
                 bcrypte.genSalt(10, function(err, salt) {
                     // Call error-handling middleware:
-                    if (err) return
+                    if (err) {
+                        console.log(err)
+                        res.status(500).json(err);
+                        return
+                    }
                     bcrypte.hash(password, salt, function(err, hash) {
                     // Call error-handling middleware:
-                    if (err) return
-                    User.findOneAndUpdate({ id }, { password: hash })
+                    if (err) {
+                        console.log(err)
+                        res.status(500).json(err);
+                        return
+                    }
+                    User.findOneAndUpdate({ _id }, { password: hash })
                         .then(() => res.status(202).json("Password changed accepted"))
                         .catch(err => res.status(500).json(err))
                     });
@@ -172,7 +180,8 @@ exports.resetPassword = (req , res ) => {
                 });
             }
         })
-        .catch(() => {
+        .catch((err) => {
+            console.log(err)
             res.status(404).json("Invalid user")
         })
 };

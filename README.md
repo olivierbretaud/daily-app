@@ -9,7 +9,7 @@ Nuxt , VueX, Express, Node, Mongo with Docker-compose setup for local developmen
 
 2. Navigate into the directory NUX
 
-> cd your-path-to/NUXT-MONGO-DOCKR
+> cd your-path-to/
 
 3. Build Docker Images
 

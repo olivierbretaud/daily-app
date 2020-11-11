@@ -6,7 +6,8 @@ export const state = () => {
   return {
     auth: null,
     error: null,
-    userCreated: null
+    userCreated: null,
+    forgotMessage: null
   }
 }
 
@@ -22,6 +23,9 @@ export const mutations = {
   },
   SET_ERROR( state  , value) {
 		state.error = value
+  },
+  SET_FORGOT( state  , value) {
+		state.forgotMessage = value
   },
   SET_USER_CREATED( state  , value) {
 		state.userCreated = value
@@ -41,15 +45,21 @@ export const actions = {
 	resetAuthErrors({ commit }) {
     commit('SET_ERROR', null );
     commit('SET_USER_CREATED', null);
+    commit('SET_FORGOT', null);
 	},
 
 	async login({ commit } , payload ) {
 		postData( "/users/login" , 'SET_TOKEN' , 'SET_ERROR' , commit , payload , false );
   },
   
+  
   async signIn({ commit } , payload ) {
 		postData( "/users/register" , 'SET_USER_CREATED' , 'SET_ERROR' , commit , payload , false );
-	},
+  },
+  
+  async forgotPassword({ commit } , payload ) {
+		postData( "/users/forgot" , 'SET_FORGOT' , 'SET_ERROR' , commit , payload , false );
+  },
 
 	logout({ commit }) {
 		cookie.remove('auth')

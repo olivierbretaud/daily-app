@@ -1,3 +1,4 @@
+import colors from 'vuetify/lib/util/colors'
 
 export default {
   mode: 'universal',
@@ -34,25 +35,45 @@ export default {
   */
 
   buildModules: [
+    '@nuxtjs/vuetify'
   ],
+
+  vuetify: {
+    /* module options */
+    customVariables: ['~/assets/styles/variables.scss'],
+    theme: {
+      dark: false ,
+      themes: {
+        light: {
+          primary: colors.purple,
+          greyDarken1: colors.grey.darken1,
+          accent: colors.shades.black,
+          error: colors.red.accent3,
+        },
+        dark: {
+          primary: colors.purple,
+          greyDarken1: colors.grey.darken1,
+          accent: colors.shades.black,
+          error: colors.red.accent3,
+        },
+      },
+    }
+  },
   /*
   ** Nuxt.js modules
   */
 
-  // modules: ['@nuxtjs/style-resources', '@nuxtjs/axios',],
-
-  modules: ['@nuxtjs/axios'],
-
-
-  // styleResources: {
-  //     scss: [
-  //       '~/assets/styles/main.scss',
-  //     ]
-  // },
+  modules: ['@nuxtjs/style-resources', '@nuxtjs/axios'],
 
   css: [
-     '~/assets/styles/main.scss'
+    '~/assets/styles/main.scss'
   ],
+
+  styleResources: {
+    scss: [
+      '~/assets/styles/variables.scss'
+    ]
+  },
   
   render: {
     bundleRenderer: {

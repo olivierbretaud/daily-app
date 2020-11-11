@@ -31,10 +31,12 @@ db.once("open", function(callback){
 });
 
 const users = require('../routes/user');
+const tasks = require('../routes/task');
 
 const app = express();
 app.use(passport.initialize());
-require('../passport')(passport)
+
+require('../passport')(passport);
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -46,13 +48,10 @@ app.use(bodyParser.urlencoded({extended: false }));
 app.use(bodyParser.json());
 
 app.use('/users', users);
+app.use('/tasks', tasks);
 
 app.get('/test', (req,res) => res.json({msg: "Users works"}));
 
-
-app.get('/hello', function(req, res) {
-    res.send('hello');
-})
 
 const PORT  = process.env.PORT || 8081;
 

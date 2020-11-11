@@ -1,20 +1,50 @@
 @import './variables.scss';
-@import './buttons.scss';
-@import './inputs.scss';
-@import './login.scss';
+// @import './buttons.scss';
+// @import './inputs.scss';
+// @import './login.scss';
 
-body {
-	font-family: "Raleway-Regular", sans-serif;
+html {
+  font-family: 'FiraSans-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
 }
 
 @font-face {
-	font-family: "Raleway-SemiBold";
-	src: url("../fonts/Raleway-SemiBold.ttf") format("truetype");
+	font-family: "FiraSans-Bold";
+	src: url("../fonts/FiraSans-Bold.ttf") format("truetype");
 }
 
 @font-face {
-	font-family: "Raleway-Regular";
-	src: url("../fonts/Raleway-Regular.ttf") format("truetype");
+	font-family: "FiraSans-Regular";
+	src: url("../fonts/FiraSans-Regular.ttf") format("truetype");
+}
+
+
+.btn-login {
+  width: 200px;
+}
+
+.slide-in-bottom {
+  @include animation-y(slide-in-bottom, 0.5s,  40px , 0 )
+}
+
+
+h1 {
+	font-family: "FiraSans-Bold";
 }
 
 ul {
@@ -29,13 +59,4 @@ ul {
 input, select, textarea {
 	border-style: none;
 	border-width: 0px;
-}
-
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
