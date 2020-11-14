@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <h1 class="logo text-center primary--text">Daily Manager</h1>
+    <h1 class="logo primary-font-bold text-center primary--text">Daily Manager</h1>
     <v-main>
       <v-container fill-height fluid>
         <nuxt />

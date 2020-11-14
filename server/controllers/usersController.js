@@ -4,14 +4,16 @@ const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 const { transporter , getPasswordResetURL , resetPasswordTemplate } = require('../modules/email')
 
-const passwordHashToToken = (user) => { 
-
-    console.log(user)
-    const secret = user.password;
-    const userId = user._id
+const passwordHashToToken = ({
+    password: passwordHash,
+    _id: userId,
+    createdAt
+  }) => {
+  
+    const secret = passwordHash + "-" + createdAt
     const token = jwt.sign({ userId }, secret, {
       expiresIn: 3600 // 1 hour
-    });
+    })
   
     return token
   
@@ -130,7 +132,6 @@ exports.sendResetPassordEmail = ( req , res ) => {
                         res.status(500).json("error sending email")
                     }
                     if(info) {
-                        console.log(`email send` , info)
                         res.status(200).json({
                             token : token,
                             message:"Check your email to reset your password"
@@ -151,34 +152,33 @@ exports.sendResetPassordEmail = ( req , res ) => {
 
 exports.resetPassword = (req , res ) => {
     const { token , _id , password } = req.body;
-    console.log(req.body);
+
     User.findOne({ _id })
         .then(user => {
-            const secret = user.password;
-            const payload = jwt.decode(token , secret );
-            console.log(payload.userId , user._id)
-            if (payload.userId === user._id) {
-                bcrypte.genSalt(10, function(err, salt) {
-                    // Call error-handling middleware:
-                    if (err) {
-                        console.log(err)
-                        res.status(500).json(err);
-                        return
-                    }
-                    bcrypte.hash(password, salt, function(err, hash) {
-                    // Call error-handling middleware:
-                    if (err) {
-                        console.log(err)
-                        res.status(500).json(err);
-                        return
-                    }
-                    User.findOneAndUpdate({ _id }, { password: hash })
-                        .then(() => res.status(202).json("Password changed accepted"))
-                        .catch(err => res.status(500).json(err))
-                    });
-        
-                });
-            }
+
+        const secret = user.password + "-" + user.createdAt
+        const payload = jwt.decode(token, secret);
+
+        if (payload.userId === _id) {
+    
+            bcrypte.genSalt(10, function(err, salt) {
+    
+            // Call error-handling middleware:
+            if (err) return;
+    
+            bcrypte.hash(password, salt, function(err, hash) {
+    
+                // Call error-handling middleware:
+                if (err) return;
+
+                User.findOneAndUpdate({ _id }, { password: hash })
+                    .then(() => res.status(202).json("Password changed accepted"))
+                    .catch(err => res.status(500).json(err))
+    
+                })
+    
+            })}
+          
         })
         .catch((err) => {
             console.log(err)

@@ -7,11 +7,15 @@ export const state = () => {
     auth: null,
     error: null,
     userCreated: null,
-    forgotMessage: null
+    forgotMessage: null,
+    message: null
   }
 }
 
 export const mutations = {
+  SET_RESET_PASSWORD(state , value) {
+    state.message = value
+  },
   SET_AUTH(state, auth) {
     state.auth = auth;
   },
@@ -52,6 +56,9 @@ export const actions = {
 		postData( "/users/login" , 'SET_TOKEN' , 'SET_ERROR' , commit , payload , false );
   },
   
+  async resetPassword({ commit } , payload ) {
+		postData( "/users/reset-password" , 'SET_RESET_PASSWORD' , 'SET_ERROR' , commit , payload , false );
+  },
   
   async signIn({ commit } , payload ) {
 		postData( "/users/register" , 'SET_USER_CREATED' , 'SET_ERROR' , commit , payload , false );

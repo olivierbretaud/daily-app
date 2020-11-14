@@ -1,8 +1,18 @@
 <template>
   <v-row justify="center" class="pa-5">
-    <v-col class="slide-in-bottom" cols="12" sm="8" md="5" lg="3" xl="3" align="center" justify="center" v-if="!forgotMessage">
+    <v-col
+      class="slide-in-bottom"
+      cols="12"
+      sm="8"
+      md="5"
+      lg="3"
+      xl="3"
+      align="center"
+      justify="center"
+      v-if="!passwordChange"
+      >
       
-      <h1 class="ma-6">Login</h1>
+      <h1 class="ma-6">Change your password</h1>
 
       <v-alert
         dense
@@ -17,17 +27,6 @@
 
       <form>
         
-        <v-text-field
-          v-model="email"
-          :error-messages="emailErrors"
-          placeholder="Email"
-          required
-          rounded
-          filled
-          prepend-inner-icon="mdi-email"
-          @blur="$v.email.$touch()"
-        >
-        </v-text-field>
 
         <v-text-field
           v-model="password"
@@ -45,7 +44,6 @@
         >
         </v-text-field>
 
-
         <div class="d-flex flex-column align-center">
           <v-btn
             color="success"
@@ -54,39 +52,24 @@
             x-large
             @click="submit"
             >
-            <v-icon
-              dark
-              left
-            >
-              mdi-account-check
-            </v-icon>
-            login
+            Submit
           </v-btn>
 
-          <nuxt-link to="/signin">
+          <nuxt-link to="/">
             <v-btn
               color="primary"
               class="btn-login white--text ma-4"
               rounded
               x-large
               >
-              <v-icon
-                dark
-                left
-              >
-                mdi-lead-pencil
+              <v-icon dark left >
+                mdi-arrow-left
               </v-icon>
-              Sign in
+              Back to login
             </v-btn>
           </nuxt-link>
         </div>
 
-       <a 
-        class="ma-6 greyDarken1--text forgot"
-        @click="forgot"
-        >Forgot password
-      </a>
-      
       </form>
 
     </v-col>
@@ -99,31 +82,33 @@
       xl="3"
       align="center"
       justify="center"
-      v-if="forgotMessage"
+      v-if="passwordChange"
       class="slide-in-bottom">
       
       <v-icon
         x-large
         color="success">
-        mdi-email
+        mdi-lock
       </v-icon>
 
       <h1 class="ma-6 text-center">
-        Check your email box<br/>to reset your password
+        Your password <br/>
+        has been change
       </h1>
 
-      <v-btn
-        color="primary"
-        class="btn-login white--text ma-4"
-        rounded
-        x-large
-        @click="backFromForgot"
-        >
-        <v-icon dark left>
-          mdi-arrow-left
-        </v-icon>
-        Back to login
-      </v-btn>
+      <nuxt-link to="/">
+        <v-btn
+          color="primary"
+          class="btn-login white--text ma-4"
+          rounded
+          x-large
+          >
+          <v-icon dark left>
+            mdi-arrow-left
+          </v-icon>
+          Back to login
+        </v-btn>
+      </nuxt-link>
     </v-col>
 
   </v-row>
@@ -142,15 +127,14 @@ export default {
 
   validations: {
     password: { required },
-    email: { required, email }
   },
 
   data() {
     return {
       error: null,
-      email: '',
       password: '',
       showPassword: false,
+      passwordChange: false
     }
   },
 
@@ -161,23 +145,11 @@ export default {
   computed: {
 
     ...mapState({
-      userCreated: state => state.userCreated,
-      auth: state => state.auth,
-      user: state => state.user.user,
-      loginError: state => state.error,
-      forgotMessage: state => state.forgotMessage
+      message: state => state.message,
     }),
 
     showError: function () {
       return this.error || this.$store.state.error;
-    },
-
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('Must be valid e-mail')
-      !this.$v.email.required && errors.push('E-mail is required')
-      return errors
     },
 
     passwordErrors () {
@@ -190,32 +162,12 @@ export default {
   },
 
   watch: {
-    auth: function (val) {
-      if (val) {
-        this.$router.push('/tasks');
-      }
+    message: function (val) {
+      if(val === "Password changed accepted") this.passwordChange = true;
     }
   },
   
   methods:{
-
-    backFromForgot: function(e) {
-       e.preventDefault();
-       this.$store.dispatch('resetAuthErrors');
-    }, 
-
-    forgot: function(e) {
-      e.preventDefault();
-      this.$v.email.$touch();
-      if (this.$v.email.$invalid) {
-        return;
-      }
-      if(this.email) {
-        this.$store.dispatch('forgotPassword' , {
-          email : this.email,
-        });
-      }
-    },
 
     submit: function(e) {
       e.preventDefault();
@@ -227,9 +179,10 @@ export default {
         return;
       }
 
-      this.$store.dispatch('login' , {
-        email : this.email,
-        password : this.password
+      this.$store.dispatch('resetPassword' , {
+        password : this.password,
+        _id: this.$route.params.id,
+        token : this.$route.params.token
       });
     }
   }

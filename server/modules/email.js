@@ -11,7 +11,7 @@ module.exports.transporter = nodemailer.createTransport({
 });
 
 module.exports.getPasswordResetURL = (user, token ) => {
-  return `${process.env.CLIENT_URL}/password/reset/${user.id}/${token}`
+  return `${process.env.CLIENT_URL}/reset/${user.id}/${token}`
 };
 
 module.exports.resetPasswordTemplate = (user , url ) => {

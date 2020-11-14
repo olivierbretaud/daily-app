@@ -1,17 +1,17 @@
 <template>
-  <div class="container">
-    <div>
-      <h1 v-if="user">
-        Welcome {{ user.name }}
-      </h1>
-      <button
-        @click="logout"
-        class="fancy-button pop-onhover bg-gradient1"
-        >
-        <span>Logout</span>
-      </button>
-    </div>
-  </div>
+  <v-row justify="center" class="slide-in-bottom">
+    <v-col
+      align="center"
+      cols="12" sm="8" md="5" lg="3" xl="3"
+      >
+      <v-btn
+        rounded
+        x-large
+        color="primary">
+       add a task
+      </v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
   middleware: 'notAuthenticated',
 
   mounted(){
-    this.getMe();
+    this.getProfile();
   },
 
   computed: {
@@ -37,7 +37,7 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-    getMe() {
+    getProfile() {
       this.$store.dispatch('user/getUser')
     }
   },

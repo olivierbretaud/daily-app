@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _0baa9897 = () => interopDefault(import('../pages/secret.vue' /* webpackChunkName: "pages/secret" */))
 const _2f26f089 = () => interopDefault(import('../pages/signin.vue' /* webpackChunkName: "pages/signin" */))
+const _5940a1f7 = () => interopDefault(import('../pages/tasks.vue' /* webpackChunkName: "pages/tasks" */))
+const _70508154 = () => interopDefault(import('../pages/reset/_id/_token.vue' /* webpackChunkName: "pages/reset/_id/_token" */))
 const _1d4b0d3b = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
@@ -24,13 +25,17 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
-    path: "/secret",
-    component: _0baa9897,
-    name: "secret"
-  }, {
     path: "/signin",
     component: _2f26f089,
     name: "signin"
+  }, {
+    path: "/tasks",
+    component: _5940a1f7,
+    name: "tasks"
+  }, {
+    path: "/reset/:id?/:token?",
+    component: _70508154,
+    name: "reset-id-token"
   }, {
     path: "/",
     component: _1d4b0d3b,
