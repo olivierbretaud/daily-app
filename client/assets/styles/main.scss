@@ -42,6 +42,10 @@ html {
   @include animation-y(slide-in-bottom, 0.5s,  40px , 0 )
 }
 
+.slide-in-top {
+  @include animation-y(slide-in-top, 0.5s,  -40px , 0 )
+}
+
 .primary-font-bold {
 	font-family: "FiraSans-Bold";
 }

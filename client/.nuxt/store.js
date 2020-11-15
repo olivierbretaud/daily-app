@@ -19,6 +19,7 @@ let store = {};
   // Enforce store modules
   store.modules = store.modules || {}
 
+  resolveStoreModules(require('../store/tasks.js'), 'tasks.js')
   resolveStoreModules(require('../store/user.js'), 'user.js')
 
   // If the environment supports hot reloading...
@@ -27,6 +28,7 @@ let store = {};
     // Whenever any Vuex module is updated...
     module.hot.accept([
       '../store/index.js',
+      '../store/tasks.js',
       '../store/user.js',
     ], () => {
       // Update `root.modules` with the latest definitions.

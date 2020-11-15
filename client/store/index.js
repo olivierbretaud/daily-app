@@ -26,6 +26,10 @@ export const mutations = {
     state.auth = auth.token;
   },
   SET_ERROR( state  , value) {
+    if(value) {
+      console.log(value)
+      // cookie.remove('auth')
+    }
 		state.error = value
   },
   SET_FORGOT( state  , value) {
@@ -88,7 +92,7 @@ function getCookie(name) {
 export async function getData( url , mutationType , errorType , commit , payload , requireAuth ) {
   var config = {
     headers: {
-      'Authorization': 'Bearer ' + getCookie('auth')
+      'Authorization': 'Bearer ' + getCookie('auth'),
     }
   }
 	try {
@@ -100,10 +104,44 @@ export async function getData( url , mutationType , errorType , commit , payload
 }
 
 export async function postData( url , mutationType , errorType , commit , payload  , requireAuth) {
-	try {
+  var config = {
+    headers: {
+      'Authorization': 'Bearer ' + getCookie('auth'),
+    }
+  }
+  try {
 		const response = await axios.post(API_URL + url , payload , requireAuth ? config : null);
     commit( mutationType  , response.data )
   } catch (error) {
     commit( errorType,  error.response.data);
+  }
+} 
+
+export async function putData( url , mutationType , errorType , commit , payload  , requireAuth) {
+  var config = {
+    headers: {
+      'Authorization': 'Bearer ' + getCookie('auth'),
+    }
+  }
+  try {
+    let response = await axios.put(API_URL + url , payload , config );
+    commit( mutationType  , response.data)
+  } catch (error) {
+    commit( errorType,  error.response.data);
+  }
+} 
+
+
+export async function deleteData( url , mutationType , errorType , commit , deleteId ) {
+  var config = {
+    headers: {
+      'Authorization': 'Bearer ' + getCookie('auth'),
+    }
+  }
+  try {
+    let response = await axios.delete(API_URL + url  + deleteId , config );
+    commit( mutationType  , { ...response , _id: deleteId })
+  } catch (error) {
+    if (error.response) commit( errorType,  error.response.data);
   }
 } 
