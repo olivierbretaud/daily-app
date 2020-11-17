@@ -22,12 +22,11 @@ services:
       - ./server:/home/node/app
     depends_on: 
       - server-database
-    environment:
-      - CLIENT_URL=http://localhost:3000
-      - DATABASE_URL=server-database:27017
+    env_file: 
+      - ./server/.env
     
   server-database:
-    image: mongo
+    image: mongo:4.4-bionic
     ports:
       - 27017:27017
     volumes:

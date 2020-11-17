@@ -28,11 +28,12 @@ exports.create = (req , res ) => {
 
 };
 
+//TODO FILTER TASK BY USER
+
 exports.findUserTasks = (req, res) => {
-  const user = req.param.user
-  Task.find(user)
+  Task.find( { user : req.param.user })
     .then(data => {
-      console.data
+      console.log(data)
       res.status(200).json({
         tasks: data,
         message: "all users task"

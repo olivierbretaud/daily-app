@@ -4,6 +4,8 @@ const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 const { transporter , getPasswordResetURL , resetPasswordTemplate } = require('../modules/email')
 
+//TODO forgot password email error
+
 const passwordHashToToken = ({
     password: passwordHash,
     _id: userId,
