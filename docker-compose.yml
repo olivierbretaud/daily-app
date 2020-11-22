@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  client:
+    build: ./client
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/home/node/app
+    environment:
+      - NODE_ENV=dev
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+      - API_URL=http://server:8081
+
+  server:
+    build: ./server
+    ports:
+      - 8081:8081
+    volumes:
+      - ./server:/home/node/app
+    depends_on: 
+      - server-database
+    env_file: 
+      - ./server/.env
+    
+  server-database:
+    image: mongo:4.4-bionic
+    ports:
+      - 27017:27017
+    volumes:
+      - dbdata:/data/
+      
+volumes: 
+  dbdata:

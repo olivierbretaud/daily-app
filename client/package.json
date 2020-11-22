@@ -1,0 +1,30 @@
+{
+  "name": "starter-nuxt",
+  "version": "1.0.0",
+  "description": "starter-nuxt",
+  "author": "olivierbretaud",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.9.5",
+    "cookieparser": "^0.1.0",
+    "js-cookie": "^2.2.1",
+    "node-sass": "4.12.0",
+    "nuxt": "^2.0.0",
+    "nuxt-sass-resources-loader": "^2.0.5",
+    "vuelidate": "^0.7.6"
+  },
+  "main": "nuxt.config.js",
+  "license": "ISC",
+  "devDependencies": {
+    "@nuxtjs/style-resources": "^1.0.0",
+    "@nuxtjs/vuetify": "^1.11.2",
+    "fibers": "^5.0.0",
+    "sass-loader": "^8.0.2"
+  }
+}
