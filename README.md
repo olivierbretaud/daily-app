@@ -5,11 +5,7 @@ Nuxt , VueX, Express, Node, Mongo with Docker-compose setup for local developmen
 
 1. Clone this repository
 
-<<<<<<< HEAD
 > git clone https://github.com/olivierbretaud/daily-app.git
-=======
-> git clone https://github.com/jamesaud/VENoM-Docker
->>>>>>> b759bbd03ccdaa3ee0af349ad1432e7c87b21a51
 
 2. Navigate into the directory NUX
 
