@@ -23,7 +23,7 @@ Your app should be running on (if using native docker).:
 
 http://localhost:8080
 
-Be patient and wait for all for all of the NPM warnings to finish - this will only happen once. Happy developing! 
+Be patient and wait for all for all of the NPM warnings to finish - this will only happen once.
 
 
 ### Configuration
