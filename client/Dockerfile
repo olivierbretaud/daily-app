@@ -1,9 +1,9 @@
-FROM node:12-alpine
+FROM node:14
 
 # update and install dependency
-RUN apk update && apk upgrade
+#RUN apk update && apk upgrade
 
-RUN apk add --no-cache curl 
+#RUN apk add --no-cache curl 
 
 # create destination directory
 RUN mkdir -p /home/node/app/node_modules
